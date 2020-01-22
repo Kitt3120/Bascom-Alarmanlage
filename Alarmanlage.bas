@@ -31,6 +31,7 @@
 '
 'Hardware:
 '7-Segment-Anzeige an PortB.0-3 und PortD.4-6
+'Taster an PortD.2
 '
 '----------------------------------Deklaration----------------------------------
 'Mikrocontroller Einstellungen
@@ -44,7 +45,7 @@ $baud = 19200
 'Ports
 Ddrd = &B01110000                                           'PortD.4-6 als Ausgänge, Rest Eingänge
 Ddrb = &B00001111                                           'PortB.0-3 als Ausgänge, Rest Eingänge
-Portd.2 = 1                                                 'Pull-Up für Taster an D.2 einschalten
+Portd.2 = 1                                                 'Pull-Up für Taster an PortD.2 einschalten
 
 'Variablen
 Dim Displaystates(16) As Byte
