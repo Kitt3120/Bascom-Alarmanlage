@@ -29,6 +29,9 @@
 ' und sehen ob die LEDs und die Schalter richtig funktionieren, Es wird jedoch kein Alarmton ausgegeben. Stattdessen wird für jeden Alarmzustand ein einsprechender Text auf
 ' dem Terminal Ausgegeben.
 '
+'Hardware:
+'7-Segment-Anzeige an PortB.0-3 und PortD.4-6
+'
 '----------------------------------Deklaration----------------------------------
 'Mikrocontroller Einstellungen
 $regfile = "m168def.dat"                                    'ATmega168-Deklaration
@@ -38,12 +41,52 @@ $swstack = 100
 $framesize = 100
 $baud = 19200
 
-'-------------------------------------Main--------------------------------------
-Do
+'Ports
+Ddrd = &B01110000                                           'PortD.4-6 als Ausgänge, Rest Eingänge
+Ddrb = &B00001111                                           'PortB.0-3 als Ausgänge, Rest Eingänge
+Portd.2 = 1                                                 'Pull-Up für Taster an D.2 einschalten
 
+'Variablen
+Dim Displaystates(16) As Byte
+Dim Count As Integer
+Count = 0
+
+'Subs Deklarieren
+Declare Sub Displaynumber(number As Integer)
+'-------------------------------------Main--------------------------------------
+Gosub Setupdisplaystates
+
+Do
+  For Count = 1 To 16
+    Call Displaynumber(count)
+    Waitms 1000
+  Next Count
 Loop
 End
 
 '------------------------------------Labels-------------------------------------
+Setupdisplaystates:
+   Displaystates(1) = &B00111111
+   Displaystates(2) = &B00000110
+   Displaystates(3) = &B01011011
+   Displaystates(4) = &B01001111
+   Displaystates(5) = &B01100110
+   Displaystates(6) = &B01101101
+   Displaystates(7) = &B01111101
+   Displaystates(8) = &B00100111
+   Displaystates(9) = &B01111111
+   Displaystates(10) = &B01101111
+   Displaystates(11) = &B01110111
+   Displaystates(12) = &B01111100
+   Displaystates(13) = &B00111001
+   Displaystates(14) = &B01011110
+   Displaystates(15) = &B01111001
+   Displaystates(16) = &B01110001
+Return
 
 '-------------------------------------Subs--------------------------------------
+Sub Displaynumber(number As Integer)
+   Portd = Displaystates(number + 1) And &B11110000
+   Portd.2 = 1                                              'Pull-Up Widerstand an PortD.2 wieder aktivieren
+   Portb = Displaystates(number + 1) And &B00001111
+End Sub
