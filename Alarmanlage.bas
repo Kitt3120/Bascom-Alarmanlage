@@ -26,7 +26,7 @@
 ' Im zweiten Zustand ist die Alarmanlage eingeschaltet und im Normalmodus. Sie reagiert wie oben beschrieben.
 ' Im dritten Zustand ist die Alarmlage im Testmodus. Hier kann man die Türen öffnen
 ' und sehen ob die LEDs und die Schalter richtig funktionieren, Es wird jedoch kein Alarmton ausgegeben.
-' Stattdessen wird für jeden Alarmzustand ein einsprechender Text aufdem Terminal Ausgegeben.
+' Stattdessen wird für jeden Alarmzustand ein einsprechender Text auf dem Terminal Ausgegeben.
 '
 'Hardware:
 '7-Segment-Anzeige an PortB.0-3 und PortD.4-6
@@ -50,43 +50,93 @@ $framesize = 100
 $baud = 19200
 
 'Ports
-Ddrd = &B01110000                                           'PortD.4-6 als Ausgänge, Rest Eingänge
+Ddrd = &B11110000                                           'PortD.4-7 als Ausgänge, Rest Eingänge
 Ddrb = &B00001111                                           'PortB.0-3 als Ausgänge, Rest Eingänge
+Ddrc = &B00000111                                           'PortC.0-3 Ausgänge, Rest Eingänge
 Portd.2 = 1                                                 'Pull-Up für Taster an PortD.2 einschalten
+Portc.3 = 1                                                 'Pull-Up für Taster an PortC.3 einschalten
+Portc.4 = 1                                                 'Pull-Up für Taster an PortC.4 einschalten
+Portc.5 = 1                                                 'Pull-Up für Taster an PortC.5 einschalten
+
+'Sirene + Interrupt
+Config Timer0 = Timer , Prescale = 64
+On Timer0 On_timer0
+Enable Interrupts
+Dim Timer0_value As Byte
+
+'Interrupt für Taster
+Enable Int0                                                 'Interrupt 0 einschalten
+On Int0 Tasterdruck                                         'Beim Interrupt Tasterdruck ausführen
+Config Int0 = Falling                                       'H/L-Flanke für INT0
 
 'Variablen
-Dim Displaystates(16) As Byte
-Dim Count As Integer
+Dim Displaystates(16) As Byte                               'Array, welches die verschiedenen Zustände der 7-Segment-Anzeige enthält
+
+Dim Count As Integer                                        'Benutzt für Loops
 Count = 0
 
 Dim Amode As Byte                                           'Durch Terminal ausgewählter Modus (0=Aus, 1=Ein oder 2=Test) (AMode, da Mode ein Keyword für den Compiler ist)
 
-Dim Doorstatus As Byte                                      'Byte, um den Zustand der Türen zu speichern
-Doorstatus = &B00000000
+Dim Lastline As String * 25                                 'Letzte gelesene Eingabe durch ReadLine
+
+Dim Check_ok As Bit                                         'Gibt an, ob der letzte Check ok war
+Check_ok = 1
+
+Dim Bypass As Bit                                           'Bypass für den Alarm, wenn geheimer Taster gedrückt wurde
+Bypass = 0
+
+Dim Countdown_next_buzzer As Integer                        'Zeitpunkt im Countdown, wann der nächste Beep-Ton einsetzen soll
+Countdown_next_buzzer = 0
+
+Dim Countdown_next_buzzer_delay As Integer                  'Für die nächste Verschiebung des Beep-Tons im Countdown
+Countdown_next_buzzer_delay = 1000
+
+Dim Countdown_display_number As Integer
+Countdown_display_number = 0
+
+Dim Buzzer_frequency As Byte                                'Für die Tonlage des Buzzers
+Buzzer_frequency = 80
+
+Dim Buzzer_delay As Integer                                 'Für die länge des Beep-Ton
+Buzzer_delay = 500
+
 Dim Ignoreddoors As Byte                                    'Byte, um die zu ignorierenden Türen nach rechtzeitigem Abschalten des Countdowns zu speichern
 Ignoreddoors = &B00000000
 
 'Aliase
-Tuer.1 Alias Portc.3
-Tuer.2 Alias Portc.4
-Tuer.3 Alias Portc.5
+Tuer1 Alias Pinc.3
+Tuer2 Alias Pinc.4
+Tuer3 Alias Pinc.5
 
-Led.1 Alias Portc.0
-Led.2 Alias Portc.1
-Led.3 Alias Portc.2
+Led1 Alias Portc.0
+Led2 Alias Portc.1
+Led3 Alias Portc.2
+
+Buzzer Alias Portd.7
 
 'Subs Deklarieren
-Declare Sub Displaynumber(number As Integer)
-'-------------------------------------Main--------------------------------------
+Declare Sub Readline()
+Declare Sub Displaynumber(byval Number As Integer)
+'-------------------------------------Init-------------------------------------'
 Gosub Setupdisplaystates
-
+Gosub Selectmode
+Print "Starte im Modus: " ; Amode
+'-------------------------------------Main--------------------------------------
 Do
+  If Amode = 0 Then
+    !NOP
+  Else
+    Gosub Refreshleds                                       'Alle LEDs aktualisieren
+    Gosub Check                                             'Einen Check ausführen und eventuell Alarmanlage auslösen
 
+    If Check_ok = 0 Then
+      Gosub Countdown
+    End If
+  End If
 Loop
 End
-
 '------------------------------------Labels-------------------------------------
-Setupdisplaystates:
+Setupdisplaystates:                                         'Initialisiert die verschiedenen Zustände der 7-Segment-Anzeige
    Displaystates(1) = &B00111111
    Displaystates(2) = &B00000110
    Displaystates(3) = &B01011011
@@ -105,9 +155,190 @@ Setupdisplaystates:
    Displaystates(16) = &B01110001
 Return
 
+Selectmode:                                                 'Lässt den Nutzer einen Modus auswählen
+  Print "In welchem Modus soll gestartet werden?"
+  Print "Aus"
+  Print "Normal"
+  Print "Test"
+  Call Readline()                                           'Ließt ganze Zeile ein und speichert sie in Variable LastLine
+
+  If Lastline = "Aus" Then
+    Amode = 0
+  Elseif Lastline = "Normal" Then
+    Amode = 1
+  Elseif Lastline = "Test" Then
+    Amode = 2
+  Else
+    Print "Unbekannter Modus!"
+    Gosub Selectmode
+  End If
+Return
+
+Refreshleds:                                                'LEDs aktualisieren
+  Led1 = Not Tuer1                                          'Not, da der Wert einmal umgekehrt werden muss
+  Led2 = Not Tuer2
+  Led3 = Not Tuer3
+Return
+
+Check:                                                      'Führt einen Check aus und löst eventuell die Alarmanlage aus
+  Check_ok = 1                                              'Standardmäßig erfolgreich
+
+  If Tuer1 = 1 And Ignoreddoors.1 = 0 Then                  'Wenn eine Tür offen ist und nicht ignoriert werden soll, schlägt der Check fehö
+    Check_ok = 0
+  End If
+  If Tuer2 = 1 And Ignoreddoors.2 = 0 Then
+    Check_ok = 0
+  End If
+  If Tuer3 = 1 And Ignoreddoors.3 = 0 Then
+    Check_ok = 0
+  End If
+
+  If Tuer1 = 0 And Ignoreddoors.1 = 1 Then                  'Wenn eine Tür geschlossen ist und ignoriert werden soll, wird sie nicht mehr ignoriert
+    Ignoreddoors.1 = 0
+  End If
+  If Tuer2 = 0 And Ignoreddoors.2 = 1 Then
+    Ignoreddoors.2 = 0
+  End If
+  If Tuer3 = 0 And Ignoreddoors.3 = 1 Then
+    Ignoreddoors.3 = 0
+  End If
+Return
+
+Countdown:
+  Buzzer_frequency = 80
+  Buzzer_delay = 1000
+  Countdown_next_buzzer = 30000
+  Countdown_next_buzzer_delay = 1000
+  Countdown_display_number = 0
+
+  Led1 = 1
+  Led2 = 1
+  Led3 = 1
+
+  Count = 30000
+  While Count > 100 And Bypass = 0                          'While anstatt for, um Count in der Schleife modifizieren zu können
+    Toggle Led1
+    Toggle Led2
+    Toggle Led3
+
+    If Count > 20000 Then
+      Countdown_display_number = 3
+    Elseif Count > 10000 Then
+      Countdown_display_number = 2
+    Else
+      Countdown_display_number = Count / 1000
+    End If
+
+    Call Displaynumber(countdown_display_number)
+
+    If Count <= Countdown_next_buzzer Then
+      Gosub Beep
+      Count = Count - Buzzer_delay                          'Verstrichene Zeit vom Buzzer abziehen
+
+      Buzzer_delay = Buzzer_delay - 30
+      If Buzzer_delay <= 100 Then
+        Buzzer_delay = 100
+      End If
+
+      Countdown_next_buzzer = Count - Countdown_next_buzzer_delay
+      Countdown_next_buzzer_delay = Countdown_next_buzzer_delay - 40
+      If Countdown_next_buzzer <= 0 Then
+        Countdown_next_buzzer = 0
+      End If
+    End If
+
+    Waitms 1
+    Count = Count - 1
+  Wend
+
+  Call Displaynumber( -1)
+
+  If Bypass = 1 Then                                        'Wenn Countdown abgelaufen und Bypass
+    If Tuer1 = 1 Then                                       'Türen, welche nach Bypass offen sind, bis zum Schließen ignorieren
+      Ignoreddoors.1 = 1
+    End If
+    If Tuer2 = 1 Then
+      Ignoreddoors.2 = 1
+    End If
+    If Tuer3 = 1 Then
+      Ignoreddoors.3 = 1
+    End If
+    Bypass = 0                                              'Bypass zurücksetzen
+  Else                                                      'Wenn Countdown abgelaufen und kein Bypass
+    Gosub Sirene
+  End If
+Return
+
+Beep:                                                       'Lässt den Buzzer piepen
+  Buzzer_frequency = 80
+  Enable Timer0
+  Waitms Buzzer_delay
+  Disable Timer0
+Return
+
+Sirene:
+  Enable Timer0
+  Do                                                        'In Endlosschleife laufen lassen
+    For Buzzer_frequency = 80 To 150 Step 1
+      Waitms 5
+    Next Buzzer_frequency
+
+    Waitms 1500
+
+    For Buzzer_frequency = 150 To 80 Step -1
+      Waitms 30
+    Next Buzzer_frequency
+  Loop
+Return
 '-------------------------------------Subs--------------------------------------
-Sub Displaynumber(number As Integer)
-   Portd = Displaystates(number + 1) And &B11110000
-   Portd.2 = 1                                              'Pull-Up Widerstand an PortD.2 wieder aktivieren
-   Portb = Displaystates(number + 1) And &B00001111
+Sub Readline()                                              'Ließt eine ganze Zeile vom Nutzer ein
+  Local Inputstring As String * 25
+  Local Current As Byte
+  Local Reading As Byte
+  Inputstring = ""
+  Current = 0
+  Reading = 1
+  While Reading = 1
+    Current = Waitkey()
+    If Current = 13 Then
+      Reading = 0
+    Else
+      Inputstring = Inputstring + Chr(current)
+    End If
+  Wend
+  Print "Input: " ; Inputstring
+  Lastline = Inputstring
 End Sub
+
+Sub Displaynumber(number As Integer)                        'Gibt die angegebene Zahl auf der 7-Segment-Anzeige aus
+   If Number < 0 Then
+     Portd = &B00000000 And &B11110000
+     Portd.2 = 1                                            'Pull-Up Widerstand an PortD.2 wieder aktivieren
+     Portb = &B00000000 And &B00001111
+   Else
+     Portd = Displaystates(number + 1) And &B11110000
+     Portd.2 = 1                                            'Pull-Up Widerstand an PortD.2 wieder aktivieren
+     Portb = Displaystates(number + 1) And &B00001111
+   End If
+End Sub
+'----------------------------------Interrupts-----------------------------------
+On_timer0:                                                  'Schaltet den Buzzer in unterschiedlichen Abständen ein und aus, um Töne zu erzeugen
+   Timer0_value = Timer0 + 9                                'Genauigkeit verbesser, der MC braucht etwa 9 Ticks, um die Werte neu zu setzen
+   Timer0 = Buzzer_frequency + Timer0_value
+
+   If Amode = 1 Then
+     Toggle Buzzer
+   Elseif Amode = 2 Then
+     Print "Buzzer! (" ; Buzzer_frequency ; ")"
+   End If
+Return
+
+Tasterdruck:
+  If Amode = 1 Or Amode = 2 Then
+    If Check_ok = 0 Then
+      Bypass = 1
+    Else
+      Gosub Selectmode
+    End If
+  End If
+Return
