@@ -164,6 +164,9 @@ Selectmode:                                                 'Lässt den Nutzer ei
 
   If Lastline = "Aus" Then
     Amode = 0
+    Led1 = 0
+    Led2 = 0
+    Led3 = 0
   Elseif Lastline = "Normal" Then
     Amode = 1
   Elseif Lastline = "Test" Then
@@ -235,13 +238,13 @@ Countdown:
       Gosub Beep
       Count = Count - Buzzer_delay                          'Verstrichene Zeit vom Buzzer abziehen
 
+      Countdown_next_buzzer = Count - Countdown_next_buzzer_delay
+      Countdown_next_buzzer_delay = Countdown_next_buzzer_delay - 40
       Buzzer_delay = Buzzer_delay - 30
+      
       If Buzzer_delay <= 100 Then
         Buzzer_delay = 100
       End If
-
-      Countdown_next_buzzer = Count - Countdown_next_buzzer_delay
-      Countdown_next_buzzer_delay = Countdown_next_buzzer_delay - 40
       If Countdown_next_buzzer <= 0 Then
         Countdown_next_buzzer = 0
       End If
@@ -334,11 +337,9 @@ On_timer0:                                                  'Schaltet den Buzzer
 Return
 
 Tasterdruck:
-  If Amode = 1 Or Amode = 2 Then
-    If Check_ok = 0 Then
-      Bypass = 1
-    Else
-      Gosub Selectmode
-    End If
+  If Check_ok = 0 Then
+    Bypass = 1
+  Else
+    Gosub Selectmode
   End If
 Return

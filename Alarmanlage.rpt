@@ -1,11 +1,6 @@
 Report       : Alarmanlage
-<<<<<<< Updated upstream
-Date         : 01-22-2020
-Time         : 12:16:30
-=======
 Date         : 01-30-2020
-Time         : 19:42:31
->>>>>>> Stashed changes
+Time         : 20:31:35
 
 Compiler     : BASCOM-AVR LIBRARY V 2.0.7.5
 Processor    : M168
@@ -13,15 +8,9 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 4000 hex
 
-<<<<<<< Updated upstream
-ROMIMAGE     : 182 hex  -> Will fit into ROM
-ROMIMAGE     :  386 dec
-FLASH USED   :  2  %
-=======
-ROMIMAGE     : C7A hex  -> Will fit into ROM
-ROMIMAGE     :  3194 dec
+ROMIMAGE     : C4A hex  -> Will fit into ROM
+ROMIMAGE     :  3146 dec
 FLASH USED   :  19  %
->>>>>>> Stashed changes
 BAUD         : 19200 Baud
 XTAL         : 20000000 Hz
 BAUD error   : 0.16%
@@ -625,10 +614,4 @@ PWM0A                            not used
 PWM0B                            not used
 PWM2A                            not used
 PWM2B                            not used
-<<<<<<< Updated upstream
-AMODE                            not used
-DOORSTATUS                       not used
-IGNOREDDOORS                     not used
-=======
->>>>>>> Stashed changes
 

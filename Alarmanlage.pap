@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="BF110BC534695660">
-  <PROJECT FORMAT="1.00" NAME="Alarmanlage" AUTHOR="Torben und nicht Fabian" CREATED="2020.01.30 16:09:58" MODIFIED="2020.01.30 17:48:18">
+<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="04AABAEDE86B2180">
+  <PROJECT FORMAT="1.00" NAME="Alarmanlage" AUTHOR="Torben und nicht Fabian" CREATED="2020.01.30 16:09:58" MODIFIED="2020.01.30 20:30:46">
     <DIAGRAMS>
-      <DIAGRAM FORMAT="1.00" ID="0" NAME="Alarmanlage" CREATED="2020.01.30 16:10:17" MODIFIED="2020.01.30 16:37:21">
-        <LAYOUT FORMAT="1.00" COLUMNS="3" ROWS="14">
+      <DIAGRAM FORMAT="1.00" ID="0" NAME="Alarmanlage" CREATED="2020.01.30 16:10:17" MODIFIED="2020.01.30 20:30:46">
+        <LAYOUT FORMAT="1.00" COLUMNS="3" ROWS="12">
           <ENTRIES>
-            <ENTRY COLUMN="0" ROW="6">
+            <ENTRY COLUMN="0" ROW="4">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="46">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="10">
+            <ENTRY COLUMN="0" ROW="8">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="38">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
@@ -34,61 +34,51 @@ Sub-Routinen deklarieren]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="1" ROW="3">
-              <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="6">
-                <TEXT><![CDATA[Setupdisplaystates]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="1" ROW="4">
-              <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="11">
-                <TEXT><![CDATA[SelectMode]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="1" ROW="5">
               <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="10">
                 <TEXT><![CDATA[Init]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="6">
+            <ENTRY COLUMN="1" ROW="4">
               <FIGURE SUBTYPE="PapLoopStart" FORMAT="1.00" ID="20" ASSOCIATE="21">
                 <TEXT><![CDATA[Do loop]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="7">
+            <ENTRY COLUMN="1" ROW="5">
               <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="23">
                 <TEXT><![CDATA[If Amode = 0?]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="8">
+            <ENTRY COLUMN="1" ROW="6">
               <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="30">
                 <TEXT><![CDATA[RefreshLEDs]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="9">
+            <ENTRY COLUMN="1" ROW="7">
               <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="32">
                 <TEXT><![CDATA[Check]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="10">
+            <ENTRY COLUMN="1" ROW="8">
               <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="34">
                 <TEXT><![CDATA[Check_ok = 0?]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="11">
+            <ENTRY COLUMN="1" ROW="9">
               <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="36">
                 <TEXT><![CDATA[Countdown]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="12">
+            <ENTRY COLUMN="1" ROW="10">
               <FIGURE SUBTYPE="PapLoopEnd" FORMAT="1.00" ID="21" ASSOCIATE="20">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="13">
+            <ENTRY COLUMN="1" ROW="11">
               <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
                 <TEXT><![CDATA[Ende]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="7">
+            <ENTRY COLUMN="2" ROW="5">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="27">
                 <TEXT><![CDATA[!NOP]]></TEXT>
               </FIGURE>
@@ -97,10 +87,8 @@ Sub-Routinen deklarieren]]></TEXT>
         </LAYOUT>
         <CONNECTIONS>
           <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="12" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="13" FROM="12" TO="6" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="15" FROM="6" TO="11" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="22" FROM="20" TO="23" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="18" FROM="11" TO="10" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="13" FROM="12" TO="10" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="31" FROM="30" TO="32" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="24" FROM="23" TO="30" TEXT="nein" />
           <CONNECTION FORMAT="1.00" ID="33" FROM="32" TO="34" TEXT="" />
@@ -195,8 +183,8 @@ Sub-Routinen deklarieren]]></TEXT>
           <CONNECTION FORMAT="1.00" ID="7" FROM="6" TO="2" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="4" NAME="SelectMode" CREATED="2020.01.30 16:20:51" MODIFIED="2020.01.30 16:20:51">
-        <LAYOUT FORMAT="1.00" COLUMNS="4" ROWS="8">
+      <DIAGRAM FORMAT="1.00" ID="4" NAME="SelectMode" CREATED="2020.01.30 16:20:51" MODIFIED="2020.01.30 20:12:00">
+        <LAYOUT FORMAT="1.00" COLUMNS="4" ROWS="9">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
               <FIGURE SUBTYPE="PapTitle" FORMAT="1.00" ID="0">
@@ -228,16 +216,23 @@ Test"]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="0" ROW="5">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="42">
+                <TEXT><![CDATA[Led1 = 0
+Led2 = 0
+Led3 = 0]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="6">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="12">
                 <TEXT><![CDATA[AMode = 0]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="6">
+            <ENTRY COLUMN="0" ROW="7">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="33">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="0" ROW="7">
+            <ENTRY COLUMN="0" ROW="8">
               <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
                 <TEXT><![CDATA[Ende]]></TEXT>
               </FIGURE>
@@ -247,12 +242,12 @@ Test"]]></TEXT>
                 <TEXT><![CDATA[Lastline = "Normal"?]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="5">
+            <ENTRY COLUMN="1" ROW="6">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="19">
                 <TEXT><![CDATA[AMode=1]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="6">
+            <ENTRY COLUMN="1" ROW="7">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="31">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
@@ -262,12 +257,12 @@ Test"]]></TEXT>
                 <TEXT><![CDATA[Lastline = "Test"?]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="5">
+            <ENTRY COLUMN="2" ROW="6">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="30">
                 <TEXT><![CDATA[AMode=2]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="6">
+            <ENTRY COLUMN="2" ROW="7">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="36">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
@@ -277,12 +272,12 @@ Test"]]></TEXT>
                 <TEXT><![CDATA[Print "Unbekannter Modus!"]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="3" ROW="5">
+            <ENTRY COLUMN="3" ROW="6">
               <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="29">
                 <TEXT><![CDATA[SelectMode]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="3" ROW="6">
+            <ENTRY COLUMN="3" ROW="7">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="39">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
@@ -293,7 +288,7 @@ Test"]]></TEXT>
           <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="4" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="6" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="7" FROM="6" TO="8" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="9" FROM="8" TO="12" TEXT="ja" />
+          <CONNECTION FORMAT="1.00" ID="9" FROM="8" TO="42" TEXT="ja" />
           <CONNECTION FORMAT="1.00" ID="11" FROM="8" TO="14" TEXT="nein" />
           <CONNECTION FORMAT="1.00" ID="34" FROM="33" TO="2" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="16" FROM="14" TO="19" TEXT="ja" />
@@ -308,6 +303,7 @@ Test"]]></TEXT>
           <CONNECTION FORMAT="1.00" ID="38" FROM="36" TO="31" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="40" FROM="29" TO="39" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="41" FROM="39" TO="36" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="43" FROM="42" TO="12" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
       <DIAGRAM FORMAT="1.00" ID="5" NAME="ReadLine" CREATED="2020.01.30 16:27:12" MODIFIED="2020.01.30 16:57:13">
@@ -410,7 +406,7 @@ Reading = 1]]></TEXT>
           <CONNECTION FORMAT="1.00" ID="31" FROM="25" TO="32" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="6" NAME="Countdown" CREATED="2020.01.30 16:35:25" MODIFIED="2020.01.30 17:33:42">
+      <DIAGRAM FORMAT="1.00" ID="6" NAME="Countdown" CREATED="2020.01.30 16:35:25" MODIFIED="2020.01.30 20:30:46">
         <LAYOUT FORMAT="1.00" COLUMNS="3" ROWS="31">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="0" ANCHOR="True">
@@ -562,23 +558,23 @@ Toggle Led3]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="1" ROW="16">
-              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="93">
-                <TEXT><![CDATA[Buzzer_delay = Buzzer_delay - 30]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="1" ROW="17">
-              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="94">
-                <TEXT><![CDATA[Buzzer_delay <= 100?]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="1" ROW="18">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="107">
                 <TEXT><![CDATA[Countdown_next_buzzer = Count - Countdown_next_buzzer_delay]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="19">
+            <ENTRY COLUMN="1" ROW="17">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="106">
                 <TEXT><![CDATA[Countdown_next_buzzer_delay = Countdown_next_buzzer_delay - 40]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="18">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="93">
+                <TEXT><![CDATA[Buzzer_delay = Buzzer_delay - 30]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="19">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="94">
+                <TEXT><![CDATA[Buzzer_delay <= 100?]]></TEXT>
               </FIGURE>
             </ENTRY>
             <ENTRY COLUMN="1" ROW="20">
@@ -631,7 +627,7 @@ Toggle Led3]]></TEXT>
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="17">
+            <ENTRY COLUMN="2" ROW="19">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="97">
                 <TEXT><![CDATA[Buzzer_delay = 100]]></TEXT>
               </FIGURE>
@@ -678,14 +674,14 @@ Toggle Led3]]></TEXT>
           <CONNECTION FORMAT="1.00" ID="42" FROM="41" TO="55" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="51" FROM="49" TO="46" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="76" FROM="55" TO="77" TEXT="ja" />
-          <CONNECTION FORMAT="1.00" ID="96" FROM="94" TO="97" TEXT="ja" />
+          <CONNECTION FORMAT="1.00" ID="163" FROM="94" TO="97" TEXT="ja" />
           <CONNECTION FORMAT="1.00" ID="82" FROM="77" TO="83" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="98" FROM="83" TO="93" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="99" FROM="93" TO="94" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="101" FROM="94" TO="107" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="162" FROM="94" TO="112" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="113" FROM="106" TO="93" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="161" FROM="93" TO="94" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="105" FROM="55" TO="122" TEXT="nein" />
           <CONNECTION FORMAT="1.00" ID="108" FROM="107" TO="106" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="113" FROM="106" TO="112" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="98" FROM="83" TO="107" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="115" FROM="112" TO="118" TEXT="ja" />
           <CONNECTION FORMAT="1.00" ID="126" FROM="124" TO="122" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="125" FROM="112" TO="124" TEXT="" />
@@ -1145,65 +1141,50 @@ Portb = &B00000000 And &B00001111]]></TEXT>
           <CONNECTION FORMAT="1.00" ID="27" FROM="22" TO="2" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
-      <DIAGRAM FORMAT="1.00" ID="13" NAME="Tasterdruck" CREATED="2020.01.30 17:39:48" MODIFIED="2020.01.30 17:48:18">
-        <LAYOUT FORMAT="1.00" COLUMNS="4" ROWS="6">
+      <DIAGRAM FORMAT="1.00" ID="13" NAME="Tasterdruck" CREATED="2020.01.30 17:39:48" MODIFIED="2020.01.30 20:12:00">
+        <LAYOUT FORMAT="1.00" COLUMNS="3" ROWS="5">
           <ENTRIES>
             <ENTRY COLUMN="0" ROW="2">
-              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="16">
-                <TEXT><![CDATA[]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="0" ROW="4">
-              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="27">
-                <TEXT><![CDATA[]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="1" ROW="3">
               <FIGURE SUBTYPE="PapModule" FORMAT="1.00" ID="13">
                 <TEXT><![CDATA[Selectmode]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="1" ROW="4">
+            <ENTRY COLUMN="0" ROW="3">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="18">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="0" ANCHOR="True">
+            <ENTRY COLUMN="1" ROW="0" ANCHOR="True">
               <FIGURE SUBTYPE="PapTitle" FORMAT="1.00" ID="0">
                 <TEXT><![CDATA[Tasterdruck]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="1">
+            <ENTRY COLUMN="1" ROW="1">
               <FIGURE SUBTYPE="PapStart" FORMAT="1.00" ID="1">
                 <TEXT><![CDATA[Start]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="2">
-              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="4">
-                <TEXT><![CDATA[Amode = 1 Or Amode = 2?]]></TEXT>
-              </FIGURE>
-            </ENTRY>
-            <ENTRY COLUMN="2" ROW="3">
+            <ENTRY COLUMN="1" ROW="2">
               <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="6">
                 <TEXT><![CDATA[Check_ok = 0?]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="4">
+            <ENTRY COLUMN="1" ROW="3">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="20">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="2" ROW="5">
+            <ENTRY COLUMN="1" ROW="4">
               <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
                 <TEXT><![CDATA[Ende]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="3" ROW="3">
+            <ENTRY COLUMN="2" ROW="2">
               <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="12">
                 <TEXT><![CDATA[Bypass = 1]]></TEXT>
               </FIGURE>
             </ENTRY>
-            <ENTRY COLUMN="3" ROW="4">
+            <ENTRY COLUMN="2" ROW="3">
               <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="22">
                 <TEXT><![CDATA[]]></TEXT>
               </FIGURE>
@@ -1211,17 +1192,13 @@ Portb = &B00000000 And &B00001111]]></TEXT>
           </ENTRIES>
         </LAYOUT>
         <CONNECTIONS>
-          <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="4" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="5" FROM="4" TO="6" TEXT="ja" />
           <CONNECTION FORMAT="1.00" ID="11" FROM="6" TO="13" TEXT="nein" />
           <CONNECTION FORMAT="1.00" ID="9" FROM="6" TO="12" TEXT="ja" />
           <CONNECTION FORMAT="1.00" ID="19" FROM="13" TO="18" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="15" FROM="4" TO="16" TEXT="nein" />
+          <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="6" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="21" FROM="18" TO="20" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="23" FROM="12" TO="22" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="24" FROM="22" TO="20" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="29" FROM="27" TO="18" TEXT="" />
-          <CONNECTION FORMAT="1.00" ID="26" FROM="16" TO="27" TEXT="" />
           <CONNECTION FORMAT="1.00" ID="30" FROM="20" TO="2" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
